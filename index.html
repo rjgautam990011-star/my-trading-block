@@ -69,7 +69,7 @@
 </div>
 
 <script>
-    // 1. Chart Init
+    // 1. Chart Initialization
     const chart = LightweightCharts.createChart(document.getElementById('chart'), {
         layout: { backgroundColor: '#161b22', textColor: '#d1d4dc' },
         grid: { vertLines: { color: 'rgba(42, 46, 57, 0.5)' }, horzLines: { color: 'rgba(42, 46, 57, 0.5)' } },
@@ -83,24 +83,24 @@
         wickUpColor: '#26a69a', wickDownColor: '#ef5350',
     });
 
-    // 2. Dummy Technical Data (Market Structure Example)
+    // 2. Fixed Data format with correct UNIX timestamps (100% visible on any browser)
     const data = [
-        { time: '2026-10-01', open: 120, high: 130, low: 115, close: 125 },
-        { time: '2026-10-02', open: 125, high: 140, low: 120, close: 138 },
-        { time: '2026-10-03', open: 138, high: 145, low: 135, close: 142 }, // Bullish OB Setup
-        { time: '2026-10-04', open: 142, high: 160, low: 140, close: 158 }, // Break of Structure (BOS)
-        { time: '2026-10-05', open: 158, high: 165, low: 150, close: 152 },
-        { time: '2026-10-06', open: 152, high: 175, low: 151, close: 170 },
-        { time: '2026-10-07', open: 170, high: 195, low: 168, close: 190 }, // Bearish OB Setup
-        { time: '2026-10-08', open: 190, high: 192, low: 170, close: 175 }, // Trend Reversal
+        { time: 1714521600, open: 120, high: 130, low: 115, close: 125 }, // May 1
+        { time: 1714608000, open: 125, high: 140, low: 120, close: 138 }, // May 2
+        { time: 1714694400, open: 138, high: 145, low: 135, close: 142 }, // May 3
+        { time: 1714780800, open: 142, high: 160, low: 140, close: 158 }, // May 4
+        { time: 1714867200, open: 158, high: 165, low: 150, close: 152 }, // May 5
+        { time: 1714953600, open: 152, high: 175, low: 151, close: 170 }, // May 6
+        { time: 1715040000, open: 170, high: 195, low: 168, close: 190 }, // May 7
+        { time: 1715126400, open: 190, high: 192, low: 170, close: 175 }, // May 8
     ];
 
     candleSeries.setData(data);
 
-    // 3. Mark Order Blocks visually on chart
+    // 3. Markers for Buy/Sell Signals
     candleSeries.setMarkers([
-        { time: '2026-10-03', position: 'belowBar', color: '#26a69a', shape: 'arrowUp', text: 'Bullish OB (Buy)' },
-        { time: '2026-10-07', position: 'aboveBar', color: '#ef5350', shape: 'arrowDown', text: 'Bearish OB (Sell)' }
+        { time: 1714694400, position: 'belowBar', color: '#26a69a', shape: 'arrowUp', text: 'Bullish OB (Buy)' },
+        { time: 1715040000, position: 'aboveBar', color: '#ef5350', shape: 'arrowDown', text: 'Bearish OB (Sell)' }
     ]);
 </script>
 </body>
