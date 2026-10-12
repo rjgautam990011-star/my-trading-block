@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Order Block & Buy/Sell Dashboard</title>
+    <!-- TradingView Charts Library (Free) -->
+    <script src="https://unpkg.com"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0c1017;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #161b22;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        #chart {
+            width: 100%;
+            height: 450px;
+        }
+        .signals {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+        .box {
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            width: 45%;
+            font-weight: bold;
+        }
+        .buy-zone { background-color: rgba(38, 166, 154, 0.2); border: 1px solid #26a69a; color: #26a69a; }
+        .sell-zone { background-color: rgba(239, 83, 80, 0.2); border: 1px solid #ef5350; color: #ef5350; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Smart Money Order Block Dashboard</h1>
+    <p>Live Market Structure & Free Buy/Sell Zones</p>
+</div>
+
+<div class="container">
+    <div id="chart"></div>
+    
+    <div class="signals">
+        <div class="box buy-zone">
+            <h3>🟢 Bullish Order Block (BUY)</h3>
+            <p>Wait for Price to mitigate: $140.00</p>
+        </div>
+        <div class="box sell-zone">
+            <h3>🔴 Bearish Order Block (SELL)</h3>
+            <p>Wait for Price to mitigate: $190.00</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. Chart Init
+    const chart = LightweightCharts.createChart(document.getElementById('chart'), {
+        layout: { backgroundColor: '#161b22', textColor: '#d1d4dc' },
+        grid: { vertLines: { color: 'rgba(42, 46, 57, 0.5)' }, horzLines: { color: 'rgba(42, 46, 57, 0.5)' } },
+        crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+        priceScale: { borderColor: 'rgba(197, 203, 206, 0.8)' },
+        timeScale: { borderColor: 'rgba(197, 203, 206, 0.8)' },
+    });
+
+    const candleSeries = chart.addCandlestickSeries({
+        upColor: '#26a69a', downColor: '#ef5350', borderVisible: false,
+        wickUpColor: '#26a69a', wickDownColor: '#ef5350',
+    });
+
+    // 2. Dummy Technical Data (Market Structure Example)
+    const data = [
+        { time: '2026-10-01', open: 120, high: 130, low: 115, close: 125 },
+        { time: '2026-10-02', open: 125, high: 140, low: 120, close: 138 },
+        { time: '2026-10-03', open: 138, high: 145, low: 135, close: 142 }, // Bullish OB Setup
+        { time: '2026-10-04', open: 142, high: 160, low: 140, close: 158 }, // Break of Structure (BOS)
+        { time: '2026-10-05', open: 158, high: 165, low: 150, close: 152 },
+        { time: '2026-10-06', open: 152, high: 175, low: 151, close: 170 },
+        { time: '2026-10-07', open: 170, high: 195, low: 168, close: 190 }, // Bearish OB Setup
+        { time: '2026-10-08', open: 190, high: 192, low: 170, close: 175 }, // Trend Reversal
+    ];
+
+    candleSeries.setData(data);
+
+    // 3. Mark Order Blocks visually on chart
+    candleSeries.setMarkers([
+        { time: '2026-10-03', position: 'belowBar', color: '#26a69a', shape: 'arrowUp', text: 'Bullish OB (Buy)' },
+        { time: '2026-10-07', position: 'aboveBar', color: '#ef5350', shape: 'arrowDown', text: 'Bearish OB (Sell)' }
+    ]);
+</script>
+</body>
+</html>
